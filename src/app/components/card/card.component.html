@@ -14,12 +14,12 @@
     />
     <img
       *ngIf="card.type !== 'ready'"
-      (click)="editTask(card)"
+      (click)="createDialog(card, 'edit', 'Редактирование задачи')"
       src="../../../assets/svg/pencil.svg"
       alt="pencil"
     />
     <img
-      (click)="viewTask(card)"
+      (click)="createDialog(card, 'view', 'Просмотр задачи')"
       *ngIf="card.type === 'ready'"
       src="../../../assets/svg/eye.svg"
       alt="eye"
