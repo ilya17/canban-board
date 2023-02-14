@@ -5,7 +5,7 @@
   <div cdkDropListGroup class="dashboard__container">
     <div *ngFor="let taskType of taskTypes">
       <app-cards-container
-        [cards]="getCards(taskType.type)"
+        [cards]="tasks$ | async | taskFilter : taskType.type"
         [taskType]="taskType"
       ></app-cards-container>
     </div>

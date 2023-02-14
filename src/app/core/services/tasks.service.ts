@@ -1,71 +1,60 @@
 import { Injectable } from '@angular/core';
 import { Task } from './interfaces';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
-  public tasks: Task[] = [];
-  public newTasks: Task[] = [];
-  public progressTasks: Task[] = [];
-  public readyTasks: Task[] = [];
+  public tasks$: Observable<Task[]>;
+
+  public tasksSubject$ = new BehaviorSubject<Task[]>([]);
 
   constructor() {
+    this.tasks$ = this.tasksSubject$.asObservable();
     this.updateTasksList();
   }
 
-  public getCardsByType(type: string): Task[] {
-    switch (type) {
-      case 'new':
-        return this.newTasks;
-      case 'progress':
-        return this.progressTasks;
-      default:
-        return this.readyTasks;
+  public updateTasks(updateTask: Task): void {
+    const tasks = this.tasksSubject$.value;
+    const index = tasks.findIndex((item) => item.id === updateTask.id);
+    if (index > -1) {
+      tasks.splice(index, 1);
+      tasks.push(updateTask);
+      this.tasksSubject$.next(tasks);
     }
-  }
-
-  public updateTasks(task: Task): void {
-    this.tasks.forEach((item) => {
-      if (item.id === task.id) {
-        item.type = task.type;
-      }
-    });
-    this.updateTasksList();
+    this.updateLocalStorage();
   }
 
   public addTask(task: Task): void {
-    this.tasks.push(task);
-    this.updateTasksList();
-  }
-
-  public editTask(task: Task): void {
-    const index = this.tasks.findIndex((item) => item.id === task.id);
-    this.tasks[index] = task;
-    this.updateTasksList();
+    const tasks = this.tasksSubject$.value;
+    tasks.push(task);
+    this.tasksSubject$.next(tasks);
+    this.updateLocalStorage();
   }
 
   public deleteTask(id: string): void {
-    this.tasks = this.tasks.filter((item) => item.id !== id);
-    this.updateTasksList();
+    const tasks = this.tasksSubject$.value;
+    const index = tasks.findIndex((item) => item.id === id);
+    if (index > -1) {
+      tasks.splice(index, 1);
+      this.tasksSubject$.next(tasks);
+    }
+    this.updateLocalStorage();
   }
 
-  private sortTasks(): void {
-    this.newTasks = this.tasks.filter((task) => task.type === 'new');
-    this.progressTasks = this.tasks.filter((task) => task.type === 'progress');
-    this.readyTasks = this.tasks.filter((task) => task.type === 'ready');
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
+  private updateLocalStorage(): void {
+    localStorage.setItem('tasks', JSON.stringify(this.tasksSubject$.value));
   }
 
   private updateTasksList(): void {
-    if (this.tasks.length) {
-      this.sortTasks();
+    if (this.tasksSubject$.value.length) {
+      this.updateLocalStorage();
     } else {
       if (localStorage.getItem('tasks')) {
         const tasks = localStorage.getItem('tasks');
         if (tasks && tasks.length) {
-          this.tasks = JSON.parse(tasks);
-          this.sortTasks();
+          this.tasksSubject$.next(JSON.parse(tasks));
         }
       }
     }

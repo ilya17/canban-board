@@ -76,7 +76,7 @@ export class CreateTaskModalComponent {
           title: this.form.controls['title'].value,
           type: this.form.controls['type'].value,
         };
-        this.tasksService.editTask(task);
+        this.tasksService.updateTasks(task);
       }
       this.dialogRef.close();
     } else {

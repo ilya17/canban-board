@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { TASK_TYPES } from './constants';
 import { Task, TaskType } from '@core/services/interfaces';
 import { TasksService } from '@core/services/tasks.service';
@@ -9,17 +9,16 @@ import { CreateTaskModalComponent } from 'src/app/modals/create-task-modal/creat
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {
   get taskTypes(): TaskType[] {
     return TASK_TYPES;
   }
 
-  constructor(private tasksService: TasksService, private dialog: MatDialog) {}
+  public tasks$ = this.tasksService.tasks$;
 
-  public getCards(type: string): Task[] {
-    return this.tasksService.getCardsByType(type);
-  }
+  constructor(private tasksService: TasksService, private dialog: MatDialog) {}
 
   public createTask(): void {
     const dialogRef = this.dialog.open(CreateTaskModalComponent, {

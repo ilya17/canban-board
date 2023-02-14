@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Task } from '@core/services/interfaces';
 import { TasksService } from '@core/services/tasks.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { CreateTaskModalComponent } from 'src/app/modals/create-task-modal/creat
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent {
   @Input()

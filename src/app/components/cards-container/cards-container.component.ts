@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Task, TaskType } from '@core/services/interfaces';
 import {
   CdkDragDrop,
@@ -12,12 +12,14 @@ import { TaskTypes, TypeIds } from '@core/services/constants';
   selector: 'app-cards-container',
   templateUrl: './cards-container.component.html',
   styleUrls: ['./cards-container.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardsContainerComponent {
   @Input()
   taskType!: TaskType;
 
-  @Input() cards: any;
+  @Input()
+  cards!: Task[];
 
   constructor(private tasksService: TasksService) {}
 
