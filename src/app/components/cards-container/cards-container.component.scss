@@ -1,0 +1,39 @@
+.cards-container {
+  height: 100%;
+  overflow: scroll;
+  &__title {
+    border-top: 1px solid var(--alto);
+    border-bottom: 1px solid var(--alto);
+    background-color: var(--amber);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    padding: 15px 0 14px;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 93%;
+    min-height: 30%;
+    overflow: scroll;
+    justify-content: space-between;
+    padding: 13px 30px;
+  }
+
+  &--middle {
+    border-left: 1px solid var(--alto);
+    border-right: 1px solid var(--alto);
+
+    & .cards-container__title {
+      background-color: var(--burntSienna);
+    }
+  }
+
+  &--ready {
+    & .cards-container__title {
+      background-color: var(--fern);
+    }
+  }
+}

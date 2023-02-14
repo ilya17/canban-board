@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 10% auto;
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & span:first-child {
+      font-size: 300px;
+    }
+
+    & span:last-child {
+      margin-top: -35px;
+      font-size: 70px;
+    }
+  }
+
+  & a {
+    margin-top: 50px;
+    font-size: 30px;
+    text-decoration: none;
+    color: black;
+  }
+}

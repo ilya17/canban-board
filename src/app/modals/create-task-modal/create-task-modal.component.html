@@ -1,0 +1,105 @@
+<div class="dialog">
+  <div
+    class="dialog__title"
+    [ngClass]="{
+      'dialog__title--progress': data.task?.type === 'progress',
+      'dialog__title--ready': data.task?.type === 'ready'
+    }"
+  >
+    <span>{{ data.title }}</span>
+    <img (click)="onClose()" src="../../../assets/svg/cross.svg" alt="cross" />
+  </div>
+  <form class="dialog__content" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-label class="dialog__label">Наименование</mat-label>
+    <mat-form-field
+      appearance="outline"
+      [ngClass]="{
+        'form-disabled':
+          data.flag === 'view' ||
+          (data.task?.type === 'progress' && data.flag === 'edit')
+      }"
+    >
+      <span class="dialog__counter">{{ counter }}</span>
+      <input
+        class="dialog__content-title"
+        [readonly]="
+          data.flag === 'view' ||
+          (data.task?.type === 'progress' && data.flag === 'edit')
+        "
+        formControlName="title"
+        matInput
+        placeholder="Наименование"
+      />
+      <mat-error *ngIf="form.controls['title'].invalid">
+        <span
+          [innerHTML]="getErrorMessage(form.controls['title'], '64')"
+        ></span>
+      </mat-error>
+    </mat-form-field>
+    <mat-label class="dialog__label">Описание</mat-label>
+    <mat-form-field
+      appearance="outline"
+      [ngClass]="{
+        'form-disabled':
+          data.flag === 'view' ||
+          (data.task?.type === 'progress' && data.flag === 'edit')
+      }"
+    >
+      <textarea
+        formControlName="description"
+        [readonly]="
+          data.flag === 'view' ||
+          (data.task?.type === 'progress' && data.flag === 'edit')
+        "
+        matInput
+        class="dialog__textarea"
+        placeholder="Описание задачи"
+      ></textarea>
+      <mat-error *ngIf="form.controls['description'].invalid">
+        <span
+          [innerHTML]="getErrorMessage(form.controls['description'], '256')"
+        ></span>
+      </mat-error>
+    </mat-form-field>
+    <mat-label class="dialog__label">Состояние задачи</mat-label>
+    <mat-form-field
+      appearance="outline"
+      [ngClass]="{
+        'form-disabled': data.flag === 'view'
+      }"
+    >
+      <mat-select formControlName="type">
+        <mat-option
+          *ngFor="let type of taskTypes"
+          [disabled]="data.flag === 'view'"
+          value="{{ type.type }}"
+          >{{ type.title }}</mat-option
+        >
+      </mat-select>
+      <mat-error *ngIf="form.controls['type'].invalid">
+        <span [innerHTML]="getErrorMessage(form.controls['type'])"></span>
+      </mat-error>
+    </mat-form-field>
+    <div class="dialog__action" mat-dialog-actions>
+      <ng-container *ngIf="data.flag !== 'view'; else justClose">
+        <button class="dialog__action-left" mat-button (click)="onClose()">
+          Отменить
+        </button>
+        <button class="dialog__action-right" mat-button type="submit">
+          Сохранить
+        </button>
+      </ng-container>
+    </div>
+  </form>
+</div>
+
+<ng-template #justClose>
+  <button
+    *ngIf="data.flag === 'view'"
+    class="dialog__action-right"
+    mat-button
+    (click)="onClose()"
+  >
+    Закрыть
+  </button>
+</ng-template>

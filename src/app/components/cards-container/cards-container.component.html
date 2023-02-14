@@ -1,0 +1,20 @@
+<div
+  [ngClass]="{
+    'cards-container--middle': taskType.type === 'progress',
+    'cards-container--ready': taskType.type === 'ready'
+  }"
+  class="cards-container"
+>
+  <div class="cards-container__title">
+    <span>{{ taskType.title }}</span>
+  </div>
+  <div
+    class="cards-container__list"
+    cdkDropList
+    id="{{ taskType.id }}"
+    [cdkDropListData]="cards"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <app-card *ngFor="let card of cards" [card]="card"> </app-card>
+  </div>
+</div>

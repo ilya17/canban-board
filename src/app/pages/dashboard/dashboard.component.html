@@ -1,0 +1,13 @@
+<div class="dashboard">
+  <button (click)="createTask()" class="dashboard__button">
+    <span>Создать задачку</span>
+  </button>
+  <div cdkDropListGroup class="dashboard__container">
+    <div *ngFor="let taskType of taskTypes">
+      <app-cards-container
+        [cards]="getCards(taskType.type)"
+        [taskType]="taskType"
+      ></app-cards-container>
+    </div>
+  </div>
+</div>

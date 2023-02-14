@@ -1,0 +1,34 @@
+<div class="card" cdkDrag>
+  <div
+    class="card__header"
+    [ngClass]="{
+      'card__header--progress': card.type === 'progress',
+      'card__header--ready': card.type === 'ready'
+    }"
+  >
+    <img
+      (click)="deleteTask(card.id)"
+      *ngIf="card.type === 'new'"
+      src="../../../assets/svg/basket.svg"
+      alt="basket"
+    />
+    <img
+      *ngIf="card.type !== 'ready'"
+      (click)="editTask(card)"
+      src="../../../assets/svg/pencil.svg"
+      alt="pencil"
+    />
+    <img
+      (click)="viewTask(card)"
+      *ngIf="card.type === 'ready'"
+      src="../../../assets/svg/eye.svg"
+      alt="eye"
+    />
+  </div>
+  <div class="card__main">
+    <span class="card__title">{{ card.title | truncate : 17 }}</span>
+    <span class="card__description">{{
+      card.description | truncate : 74
+    }}</span>
+  </div>
+</div>

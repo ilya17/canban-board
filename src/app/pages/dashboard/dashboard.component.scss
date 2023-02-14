@@ -1,0 +1,35 @@
+.dashboard {
+  background: var(--catskillWhite);
+  border-radius: 10px;
+  height: 100%;
+
+  &__container {
+    display: flex;
+    height: 87%;
+
+    & > div {
+      width: 33.33%;
+    }
+  }
+
+  &__button {
+    width: 234px;
+    background: var(--robinsEggBlue);
+    cursor: pointer;
+    border-radius: 39px;
+    border: none;
+    padding: 10px 25px 10px 12px;
+    margin: 33px 0 30px 30px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: white;
+
+    & > span::before {
+      content: url(../../../assets/svg/Union.svg);
+      margin-right: 32px;
+      position: relative;
+      top: 2px;
+    }
+  }
+}
