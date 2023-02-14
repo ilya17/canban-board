@@ -53,7 +53,7 @@ export class TasksService {
     } else {
       if (localStorage.getItem('tasks')) {
         const tasks = localStorage.getItem('tasks');
-        if (tasks && tasks.length) {
+        if (tasks?.length) {
           this.tasksSubject$.next(JSON.parse(tasks));
         }
       }
