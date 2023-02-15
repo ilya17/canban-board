@@ -21,7 +21,7 @@ export class DashboardComponent {
   constructor(private tasksService: TasksService, private dialog: MatDialog) {}
 
   public createTask(): void {
-    const dialogRef = this.dialog.open(CreateTaskModalComponent, {
+    this.dialog.open(CreateTaskModalComponent, {
       width: '692px',
       height: '570px',
       data: {
