@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TASK_TYPES } from './constants';
-import { Task, TaskType } from '@core/services/interfaces';
+import { TaskType } from '@core/services/interfaces';
 import { TasksService } from '@core/services/tasks.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateTaskModalComponent } from 'src/app/modals/create-task-modal/create-task-modal.component';
