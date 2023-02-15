@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,6 +9,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Task, TaskType } from '@core/services/interfaces';
 import { TasksService } from '@core/services/tasks.service';
+import { Subject, takeUntil } from 'rxjs';
 import { TASK_TYPES } from 'src/app/pages/dashboard/constants';
 
 @Component({
@@ -16,9 +17,11 @@ import { TASK_TYPES } from 'src/app/pages/dashboard/constants';
   templateUrl: './create-task-modal.component.html',
   styleUrls: ['./create-task-modal.component.scss'],
 })
-export class CreateTaskModalComponent {
+export class CreateTaskModalComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   public counter = '';
+
+  private destroyed$: Subject<void> = new Subject();
 
   get taskTypes(): TaskType[] {
     return TASK_TYPES;
@@ -52,9 +55,11 @@ export class CreateTaskModalComponent {
       this.form.controls['type'].setValue(this.data.task.type);
     }
     this.counter = `${this.form.controls['title'].value.length}/64`;
-    this.form.controls['title'].valueChanges.subscribe((value) => {
-      this.counter = `${value.length}/64`;
-    });
+    this.form.controls['title'].valueChanges
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((value: string) => {
+        this.counter = `${value.length}/64`;
+      });
   }
 
   public submit(): void {
@@ -99,5 +104,9 @@ export class CreateTaskModalComponent {
       return `Не больше ${symbol} символов`;
     }
     return '';
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
   }
 }

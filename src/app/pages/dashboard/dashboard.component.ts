@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TASK_TYPES } from './constants';
 import { Task, TaskType } from '@core/services/interfaces';
 import { TasksService } from '@core/services/tasks.service';
