@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Task, TaskType } from '@core/services/interfaces';
+import { Task } from '@core/services/interfaces';
 import { TasksService } from '@core/services/tasks.service';
 import { Subject, takeUntil } from 'rxjs';
 import { TASK_TYPES } from 'src/app/pages/dashboard/constants';
@@ -20,12 +20,9 @@ import { TASK_TYPES } from 'src/app/pages/dashboard/constants';
 export class CreateTaskModalComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   public counter = '';
+  public taskTypes = TASK_TYPES;
 
   private destroyed$: Subject<void> = new Subject();
-
-  get taskTypes(): TaskType[] {
-    return TASK_TYPES;
-  }
 
   constructor(
     private dialogRef: MatDialogRef<CreateTaskModalComponent>,
